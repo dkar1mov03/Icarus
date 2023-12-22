@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Commons\Extensions\" />
-    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\Departments\" />
+    <Folder Include="DTOs\Assets\" />
+    <Folder Include="DTOs\Categories\" />
     <Folder Include="Helpers\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Mappers\" />
