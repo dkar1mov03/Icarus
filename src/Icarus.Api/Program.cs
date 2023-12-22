@@ -5,9 +5,9 @@ using Icarus.Api.Extensions;
 using Icarus.Data.DbContexts;
 using Icarus.Api.Middlewares;
 using Icarus.Service.Mappers;
+using Icarus.Service.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Icarus.Service.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +23,13 @@ builder.Services.AddCustomService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//// Serilog
-//var logger = new LoggerConfiguration()
-//    .ReadFrom.Configuration(builder.Configuration)
-//    .Enrich.FromLogContext()
-//    .CreateLogger();
-//builder.Logging.ClearProviders();
-//builder.Logging.AddSerilog(logger);
+// Serilog
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

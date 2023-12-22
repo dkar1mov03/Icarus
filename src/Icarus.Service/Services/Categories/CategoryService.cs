@@ -10,8 +10,8 @@ namespace Icarus.Service.Services.Categories;
 
 public class CategoryService : ICategoryService
 {
-    private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
+    private readonly ICategoryRepository _categoryRepository;
     public CategoryService(IMapper mapper, ICategoryRepository categoryRepository)
     {
         _mapper = mapper;
@@ -28,6 +28,7 @@ public class CategoryService : ICategoryService
             throw new IcarusException(409, "Category is already exist");
 
         var mappedCategory = _mapper.Map<Category>(dto);
+        mappedCategory.CreatedAt = DateTime.UtcNow;
 
         var result = await _categoryRepository.InsertAsync(mappedCategory);
         await _categoryRepository.SaveAsync();
