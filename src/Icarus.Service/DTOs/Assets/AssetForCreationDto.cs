@@ -1,8 +1,10 @@
-﻿namespace Icarus.Service.DTOs.Assets;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Icarus.Service.DTOs.Assets;
 
 public class AssetForCreationDto
 {
-    public string Logo { get; set; }
+    public IFormFile Logo { get; set; }
     public decimal Rating { get; set; }
     public string Phone { get; set; }
     public string Email { get; set; }
