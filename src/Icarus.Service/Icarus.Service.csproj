@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Commons\Extensions\" />
     <Folder Include="DTOs\Categories\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>
