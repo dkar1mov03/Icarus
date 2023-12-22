@@ -4,6 +4,6 @@ namespace Icarus.Service.DTOs.Categories;
 
 public class CategoryForResultDto
 {
+    public long Id {get;set;}
     public string Name { get; set; }
-    public ICollection<DepartmentCategory> DepartmentCategories { get; set; }
 }
