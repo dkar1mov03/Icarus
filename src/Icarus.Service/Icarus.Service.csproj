@@ -3,18 +3,19 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Commons\Extensions\" />
-    <Folder Include="DTOs\Departments\" />
     <Folder Include="DTOs\Assets\" />
-    <Folder Include="DTOs\Categories\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Mappers\" />
-    <Folder Include="Services\" />
+    <Folder Include="Services\Categories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Icarus.Domain\Icarus.Domain.csproj" />
   </ItemGroup>
 
 </Project>
