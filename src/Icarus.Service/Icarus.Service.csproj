@@ -10,6 +10,7 @@
     <Folder Include="Commons\Extensions\" />
     <Folder Include="DTOs\Categories\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Services\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
