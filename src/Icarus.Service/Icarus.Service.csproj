@@ -8,13 +8,20 @@
 
   <ItemGroup>
     <Folder Include="Commons\Extensions\" />
-    <Folder Include="DTOs\Assets\" />
+    <Folder Include="DTOs\Categories\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Mappers\" />
-    <Folder Include="Services\Categories\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Icarus.Data\Icarus.Data.csproj" />
     <ProjectReference Include="..\Icarus.Domain\Icarus.Domain.csproj" />
   </ItemGroup>
 

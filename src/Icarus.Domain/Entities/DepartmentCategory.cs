@@ -1,7 +1,7 @@
 ﻿using Icarus.Domain.Commons;
 
 namespace Icarus.Domain.Entities;
-public class DepartmentCategory:Auditable<int>
+public class DepartmentCategory : Auditable<int>
 {
     public long DepartmentId { get; set; }
     public Department Department { get; set; }
