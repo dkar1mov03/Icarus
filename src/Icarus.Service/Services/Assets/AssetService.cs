@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Icarus.Data.IRepositories.Assets;
 using Icarus.Domain.Entities;
-using Icarus.Service.DTOs.Assets;
-using Icarus.Service.Exceptions;
 using Icarus.Service.Helpers;
-using Icarus.Service.Interfaces.Assets;
+using Icarus.Service.Exceptions;
+using Icarus.Service.DTOs.Assets;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
+using Icarus.Data.IRepositories.Assets;
+using Icarus.Service.Interfaces.Assets;
 
 namespace Icarus.Service.Services.Assets;
 
@@ -24,28 +23,23 @@ public class AssetService : IAssetService
     public async Task<AssetForResultDto> CreateAsync(AssetForCreationDto dto)
     {
         var asset = await _assetRepository.SelectAll()
-            .Where(a => a.Email.ToLower() == dto.Email.ToLower()
-            && a.Phone == dto.Phone)
+            .Where(a => a.Email.ToLower() == dto.Email.ToLower())
             .AsNoTracking()
             .FirstOrDefaultAsync();
+
         if (asset is not null)
             throw new IcarusException(409, "Asset is already exists");
 
-        var logoFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Logo.FileName);
-        var logoRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Logos", logoFileName);
-        using (var stream = new FileStream(logoRootPath, FileMode.Create))
-        {
-            await dto.Logo.CopyToAsync(stream);
-            await stream.FlushAsync();
-            stream.Close();
-        }
-        string logoResult = Path.Combine("Media", "Logos", logoFileName);
+
+        string logo = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map<Asset>(dto);
         mappedAsset.CreatedAt = DateTime.UtcNow;
-        mappedAsset.Logo = logoResult;
+        mappedAsset.Logo = logo;
         
         var createAsset = await _assetRepository.InsertAsync(mappedAsset);
+
+        await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(createAsset);
     }
@@ -59,25 +53,14 @@ public class AssetService : IAssetService
         if (asset is null)
             throw new IcarusException(404, "Asset is not found");
 
-        var logoFullPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, asset.Logo);
-
-        if (File.Exists(logoFullPath))
-            File.Delete(logoFullPath);
-
-        var logoFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Logo.FileName);
-        var logoRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Logos", logoFileName);
-        using (var stream = new FileStream(logoRootPath, FileMode.Create))
-        {
-            await dto.Logo.CopyToAsync(stream);
-            await stream.FlushAsync();
-            stream.Close();
-        }
-        string logoResult = Path.Combine("Media", "Logos", logoFileName);
+        string logo = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map(dto, asset);
         mappedAsset.UpdatedAt = DateTime.UtcNow;
-        mappedAsset.Logo = logoResult;
+        mappedAsset.Logo = logo;
+
         await _assetRepository.UpdateAsync(mappedAsset);
+        await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(mappedAsset);
     }
@@ -96,16 +79,19 @@ public class AssetService : IAssetService
         if (File.Exists(logoFullPath))
             File.Delete(logoFullPath);
 
-        return await _assetRepository.DeleteAsync(id);
+        await _assetRepository.DeleteAsync(id);
+        await _assetRepository.SaveAsync();
+
+        return true;
     }
 
     public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync()
     {
-        var asset = await _assetRepository.SelectAll()
+        var assets = await _assetRepository.SelectAll()
             .AsNoTracking()
-            .FirstOrDefaultAsync();
+            .ToListAsync();
         
-        return _mapper.Map<IEnumerable<AssetForResultDto>>(asset);
+        return _mapper.Map<IEnumerable<AssetForResultDto>>(assets);
     }
 
     public async Task<AssetForResultDto> RetrieveByIdAsync(long id)

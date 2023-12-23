@@ -6,11 +6,15 @@ namespace Icarus.Service.DTOs.Users
 {
     public class UserForCreationDto
     {
+        [Required, MinLength(3)]
         public string FirstName { get; set; }
+
+        [Required, MinLength(3)]
         public string LastName { get; set; }
 
         [IcarusEmailAttribute]
         public string Email { get; set; }
+
 
         [PhoneAttribute]
         public string Phone { get; set; }

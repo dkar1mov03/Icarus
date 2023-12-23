@@ -1,10 +1,11 @@
 ﻿using Icarus.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Icarus.Data.DbContexts.SeedDataUsers;
 
 namespace Icarus.Data.DbContexts;
-public class IcarusDbContext:DbContext
+public class IcarusDbContext : DbContext
 {
-    public IcarusDbContext(DbContextOptions<IcarusDbContext> options):base(options)
+    public IcarusDbContext(DbContextOptions<IcarusDbContext> options) : base(options)
     {
     }
 
@@ -13,4 +14,15 @@ public class IcarusDbContext:DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<DepartmentCategory> DepartmentCategories { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
+
+    private static void SeedData(ModelBuilder modelBuilder)
+    {
+        SeedDataUser.SeedDataUsers(modelBuilder);
+    }
 }
