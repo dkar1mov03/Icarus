@@ -6,6 +6,8 @@ using Icarus.Service.DTOs.Assets;
 using Microsoft.EntityFrameworkCore;
 using Icarus.Data.IRepositories.Assets;
 using Icarus.Service.Interfaces.Assets;
+using Icarus.Domain.Configurations;
+using Icarus.Service.Commons.Extensions;
 
 namespace Icarus.Service.Services.Assets;
 
@@ -88,10 +90,11 @@ public class AssetService : IAssetService
         return true;
     }
 
-    public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var assets = await _assetRepository.SelectAll()
             .AsNoTracking()
+            .ToPagedList<Asset, long>(@params)
             .ToListAsync();
         
         return _mapper.Map<IEnumerable<AssetForResultDto>>(assets);

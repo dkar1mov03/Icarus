@@ -1,4 +1,5 @@
-﻿using Icarus.Service.DTOs.Departments;
+﻿using Icarus.Domain.Configurations;
+using Icarus.Service.DTOs.Departments;
 using Icarus.Service.Interfaces.Departments;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +19,8 @@ public class DepartmentsController : BaseController
         => Ok(await this._departmentsService.CreateAsync(dto));
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-        => Ok(await _departmentsService.RetrieveAllAsync());
+    public async Task<IActionResult> GetAllAsync(PaginationParams @params)
+        => Ok(await _departmentsService.RetrieveAllAsync(@params));
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
