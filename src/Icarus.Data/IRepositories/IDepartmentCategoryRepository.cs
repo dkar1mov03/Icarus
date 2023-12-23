@@ -2,6 +2,6 @@
 
 namespace Icarus.Data.IRepositories;
 
-public interface IDepartmentCategoryRepository  : IRepository<DepartmentCategory, int>
+public interface IDepartmentCategoryRepository  : IRepository<DepartmentCategory, long>
 {
 }

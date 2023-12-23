@@ -16,6 +16,8 @@ using Icarus.Service.Interfaces.Departments;
 using Icarus.Service.Services.Departments;
 using Icarus.Domain.Entities;
 using Icarus.Data.Repositories.Departments;
+using Icarus.Service.Interfaces.Requests;
+using Icarus.Service.Services.Requests;
 
 
 
@@ -49,5 +51,8 @@ public static class ServiceExtension
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository,CategoryRepository>();
 
+        // Request
+        services.AddScoped<IRequestService, RequestService>(); 
+        services.AddScoped<IRequestRepository, RequestRepository>(); 
     }
 }

@@ -72,6 +72,7 @@ public class DepartmentService : IDepartmentService
     public async Task<IEnumerable<DepartmentForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var department = await _repository.SelectAll()
+            .Include(d => d.Asset)  
             .AsNoTracking()
             .ToPagedList<Department, long>(@params)
             .ToListAsync();
@@ -83,6 +84,8 @@ public class DepartmentService : IDepartmentService
     {
         var department = await _repository.SelectAll()
             .Where(d => d.Id == id)
+            .Include(d => d.Asset)
+            .AsNoTracking()
             .FirstOrDefaultAsync();
         if (department is null)
             throw new IcarusException(404, "Department is not found");
