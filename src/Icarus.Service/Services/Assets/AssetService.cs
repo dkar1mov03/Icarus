@@ -38,6 +38,7 @@ public class AssetService : IAssetService
         mappedAsset.Logo = logo;
         
         var createAsset = await _assetRepository.InsertAsync(mappedAsset);
+        await _assetRepository.SaveAsync();
 
         await _assetRepository.SaveAsync();
 
@@ -53,16 +54,18 @@ public class AssetService : IAssetService
         if (asset is null)
             throw new IcarusException(404, "Asset is not found");
 
-        string logo = await MediaHelper.UploadFile(dto.Logo);
+        string logoResult = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map(dto, asset);
         mappedAsset.UpdatedAt = DateTime.UtcNow;
-        mappedAsset.Logo = logo;
+        mappedAsset.Logo = logoResult;
+        var result = await _assetRepository.UpdateAsync(mappedAsset);
+        mappedAsset.Logo = logoResult;
 
         await _assetRepository.UpdateAsync(mappedAsset);
         await _assetRepository.SaveAsync();
 
-        return _mapper.Map<AssetForResultDto>(mappedAsset);
+        return _mapper.Map<AssetForResultDto>(result);
     }
 
     public async Task<bool> RemoveAsync(long id)

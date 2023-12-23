@@ -1,15 +1,22 @@
 ﻿using Icarus.Data.Repositories;
 using Icarus.Data.IRepositories;
-using Icarus.Data.Repositories.Assets;
-using Icarus.Data.IRepositories.Assets;
-using Icarus.Service.Interfaces.Assets;
-using Icarus.Service.Services.Assets;
-using Icarus.Service.Interfaces.Users;
 using Icarus.Service.Services.Users;
-using Icarus.Data.IRepositories.Users;
+using Icarus.Service.Services.Assets;
 using Icarus.Data.Repositories.Users;
-using Icarus.Service.Interfaces.Categories;
+using Icarus.Data.Repositories.Assets;
+using Icarus.Service.Interfaces.Users;
+using Icarus.Data.IRepositories.Users;
+using Icarus.Service.Interfaces.Assets;
+using Icarus.Data.IRepositories.Assets;
 using Icarus.Service.Services.Categories;
+using Icarus.Service.Interfaces.Categories;
+using Icarus.Service.Services.DepartmentCategories;
+using Icarus.Service.Interfaces.DepartmentCategories;
+using Icarus.Service.Interfaces.Departments;
+using Icarus.Service.Services.Departments;
+using Icarus.Domain.Entities;
+using Icarus.Data.Repositories.Departments;
+
 
 
 namespace Icarus.Api.Extensions;
@@ -24,6 +31,15 @@ public static class ServiceExtension
         // Asset
         services.AddScoped<IAssetService,AssetService>();
         services.AddScoped<IAssetRepository, AssetRepository>();
+
+
+        // Department
+        services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+        // DepartmentCategory
+        services.AddScoped<IDepartmentCategoryService, DepartmentCategoryService>();
+        services.AddScoped<IDepartmentCategoryRepository, DepartmentCategoryRepository>();
 
         // Users
         services.AddScoped<IUserService, UserService>();
