@@ -1,4 +1,5 @@
-﻿using Icarus.Service.DTOs.Categories;
+﻿using Icarus.Domain.Configurations;
+using Icarus.Service.DTOs.Categories;
 using Icarus.Service.Interfaces.Categories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,8 +20,8 @@ namespace Icarus.Api.Controllers.Categories
             => Ok(await _categoryService.CreateAsync(dto));
 
         [HttpGet]
-        public async Task<IActionResult> SelectAllAsync()
-            =>Ok(await _categoryService.RetrieveAllAsync());
+        public async Task<IActionResult> SelectAllAsync([FromQuery] PaginationParams @params)
+            =>Ok(await _categoryService.RetrieveAllAsync(@params));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> SelectByIdAsync([FromRoute] short id)

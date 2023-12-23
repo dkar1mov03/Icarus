@@ -5,6 +5,8 @@ using Icarus.Data.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using Icarus.Service.DTOs.Categories;
 using Icarus.Service.Interfaces.Categories;
+using Icarus.Domain.Configurations;
+using Icarus.Service.Commons.Extensions;
 
 namespace Icarus.Service.Services.Categories;
 
@@ -71,11 +73,12 @@ public class CategoryService : ICategoryService
 
     }
 
-    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var category = await _categoryRepository.SelectAll()
                 .Include(c => c.DepartmentCategories)
                 .AsNoTracking()
+                .ToPagedList<Category, short>(@params)
                 .ToListAsync();
 
         return _mapper.Map<IEnumerable<CategoryForResultDto>>(category);

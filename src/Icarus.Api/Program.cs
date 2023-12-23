@@ -1,13 +1,14 @@
 
-using Serilog;
-using Icarus.Api.Models;
 using Icarus.Api.Extensions;
-using Icarus.Data.DbContexts;
 using Icarus.Api.Middlewares;
+using Icarus.Api.Models;
+using Icarus.Data.DbContexts;
+using Serilog;
+using Newtonsoft.Json;
+using Icarus.Service.Helpers;
 using Icarus.Service.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Icarus.Service.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,19 +19,25 @@ builder.Services.AddDbContext<IcarusDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Fix the Cycle
+//builder.Services.AddControllers()
+//     .AddNewtonsoftJson(options =>
+//     {
+//         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+//     });
+
 builder.Services.AddControllers();
 builder.Services.AddCustomService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*Serilog
+// Serialog
 var logger = new LoggerConfiguration()
    .ReadFrom.Configuration(builder.Configuration)
    .Enrich.FromLogContext()
    .CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
-*/
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
