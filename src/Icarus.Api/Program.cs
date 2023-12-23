@@ -23,13 +23,14 @@ builder.Services.AddCustomService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//// Serilog
-//var logger = new LoggerConfiguration()
-//    .ReadFrom.Configuration(builder.Configuration)
-//    .Enrich.FromLogContext()
-//    .CreateLogger();
-//builder.Logging.ClearProviders();
-//builder.Logging.AddSerilog(logger);
+/*Serilog
+var logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(builder.Configuration)
+   .Enrich.FromLogContext()
+   .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+*/
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

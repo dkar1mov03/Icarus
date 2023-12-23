@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Icarus.Data.IRepositories.Assets;
 using Icarus.Domain.Entities;
-using Icarus.Service.DTOs.Assets;
-using Icarus.Service.Exceptions;
 using Icarus.Service.Helpers;
-using Icarus.Service.Interfaces.Assets;
+using Icarus.Service.Exceptions;
+using Icarus.Service.DTOs.Assets;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
+using Icarus.Data.IRepositories.Assets;
+using Icarus.Service.Interfaces.Assets;
 
 namespace Icarus.Service.Services.Assets;
 
@@ -24,28 +23,23 @@ public class AssetService : IAssetService
     public async Task<AssetForResultDto> CreateAsync(AssetForCreationDto dto)
     {
         var asset = await _assetRepository.SelectAll()
-            .Where(a => a.Email.ToLower() == dto.Email.ToLower()
-            && a.Phone == dto.Phone)
+            .Where(a => a.Email.ToLower() == dto.Email.ToLower())
             .AsNoTracking()
             .FirstOrDefaultAsync();
+
         if (asset is not null)
             throw new IcarusException(409, "Asset is already exists");
 
-        var logoFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Logo.FileName);
-        var logoRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Logos", logoFileName);
-        using (var stream = new FileStream(logoRootPath, FileMode.Create))
-        {
-            await dto.Logo.CopyToAsync(stream);
-            await stream.FlushAsync();
-            stream.Close();
-        }
-        string logoResult = Path.Combine("Media", "Logos", logoFileName);
+
+        string logo = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map<Asset>(dto);
         mappedAsset.CreatedAt = DateTime.UtcNow;
-        mappedAsset.Logo = logoResult;
+        mappedAsset.Logo = logo;
         
         var createAsset = await _assetRepository.InsertAsync(mappedAsset);
+        await _assetRepository.SaveAsync();
+
         await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(createAsset);
@@ -60,25 +54,18 @@ public class AssetService : IAssetService
         if (asset is null)
             throw new IcarusException(404, "Asset is not found");
 
-        var logoFullPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, asset.Logo);
-
-        if (File.Exists(logoFullPath))
-            File.Delete(logoFullPath);
-
-        var logoFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Logo.FileName);
-        var logoRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Logos", logoFileName);
-        using (var stream = new FileStream(logoRootPath, FileMode.Create))
-        {
-            await dto.Logo.CopyToAsync(stream);
-            await stream.FlushAsync();
-            stream.Close();
-        }
-        string logoResult = Path.Combine("Media", "Logos", logoFileName);
+        string logo = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map(dto, asset);
         mappedAsset.UpdatedAt = DateTime.UtcNow;
+<<<<<<< HEAD
         mappedAsset.Logo = logoResult;
         var result = await _assetRepository.UpdateAsync(mappedAsset);
+=======
+        mappedAsset.Logo = logo;
+
+        await _assetRepository.UpdateAsync(mappedAsset);
+>>>>>>> f402d2ca69fb4d62a1a466115dfe5b9cd77079f6
         await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(result);
@@ -98,10 +85,17 @@ public class AssetService : IAssetService
         if (File.Exists(logoFullPath))
             File.Delete(logoFullPath);
 
+<<<<<<< HEAD
         var result = await _assetRepository.DeleteAsync(id);
         await _assetRepository.SaveAsync();
 
         return result;
+=======
+        await _assetRepository.DeleteAsync(id);
+        await _assetRepository.SaveAsync();
+
+        return true;
+>>>>>>> f402d2ca69fb4d62a1a466115dfe5b9cd77079f6
     }
 
     public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync()
