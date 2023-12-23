@@ -1,5 +1,10 @@
 ﻿using Icarus.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Icarus.Data.DbContexts.SeedDatas.SeedDataUsers;
+using Icarus.Data.DbContexts.SeedDatas.SeedDataAssets;
+using Icarus.Data.DbContexts.SeedDatas.SeedDataRequests;
+using Icarus.Data.DbContexts.SeedDatas.SeedDataCategories;
+using Icarus.Data.DbContexts.SeedDatas.SeedDataDepartments;
 
 namespace Icarus.Data.DbContexts;
 public class IcarusDbContext : DbContext
@@ -19,6 +24,8 @@ public class IcarusDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         // User Configuration
         modelBuilder.Entity<User>()
             .HasMany(u => u.Requests)
@@ -73,36 +80,18 @@ public class IcarusDbContext : DbContext
             .HasForeignKey(dc => dc.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // 
 
-
-
-        //    base.OnModelCreating(modelBuilder);
-
-        //    // Category - DepartmentCategory Configuration
-
-        //    //modelBuilder.Entity<Category>()
-        //    //    .HasMany(c => c.DepartmentCategories)
-        //    //    .WithOne(dc => dc.Category)
-        //    //    .HasForeignKey(dc => dc.CategoryId)
-        //    //    .OnDelete(DeleteBehavior.Cascade);
-
-        //    //// Department - DepartmentCategory Configuration
-
-        //    //modelBuilder.Entity<Department>()
-        //    //    .HasMany(d => d.DepartmentCategories)
-        //    //    .WithOne(dc => dc.Department)
-        //    //    .HasForeignKey(dc => dc.DepartmentId)
-        //    //    .OnDelete(DeleteBehavior.Cascade);
-
-        //       SeedData(modelBuilder);
-        //}
-
-        //private static void SeedData(ModelBuilder modelBuilder)
-        //{
-        //    UserSeedData.SeedDataUsers(modelBuilder);
-        //    AssetSeetData.SeedDataAssets(modelBuilder);
-        //    DepartamentCategorySeedData.SeedDataDepartamentCategory(modelBuilder);
+        SeedData(modelBuilder);
+    }
+    private static void SeedData(ModelBuilder modelBuilder)
+    {
+        SeedDataUser.SeedUsers(modelBuilder);
+        SeedDataAsset.SeedAssets(modelBuilder);
+        SeedDataRequest.SeedRequests(modelBuilder);
+        SeedDataCategory.SeedCategories(modelBuilder);
+        SeedDataDepartment.SeedDepartments(modelBuilder);
+        SeedDataDepartmentCategory.SeedDepartmentCategories(modelBuilder);
+        SeedDataDepartmentResponse.SeedDepartmentResponses(modelBuilder);
     }
 }
 

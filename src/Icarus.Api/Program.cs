@@ -1,10 +1,10 @@
 
-using Icarus.Api.Extensions;
-using Icarus.Api.Middlewares;
-using Icarus.Api.Models;
-using Icarus.Data.DbContexts;
 using Serilog;
 using Newtonsoft.Json;
+using Icarus.Api.Models;
+using Icarus.Api.Extensions;
+using Icarus.Api.Middlewares;
+using Icarus.Data.DbContexts;
 using Icarus.Service.Helpers;
 using Icarus.Service.Mappers;
 using Microsoft.EntityFrameworkCore;

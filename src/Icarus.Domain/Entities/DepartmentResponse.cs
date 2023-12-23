@@ -10,5 +10,5 @@ public class DepartmentResponse : Auditable<long>
     public long DepartmentId { get; set; }
     public Department WhichDepartment { get; set; }
 
-    public string ResponceBody { get; set; }
+    public string ResponseBody { get; set; }
 }

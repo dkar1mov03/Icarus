@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using Icarus.Data.DbContexts;
-using Icarus.Data.IRepositories;
-using Icarus.Data.Repositories;
-using Icarus.Domain.Configurations;
-using Icarus.Domain.Entities;
 using Icarus.Domain.Enums;
-using Icarus.Service.Commons.Extensions;
-using Icarus.Service.DTOs.DepartmentCategories;
-using Icarus.Service.DTOs.DepartmentResponses;
+using Icarus.Domain.Entities;
+using Icarus.Data.IRepositories;
 using Icarus.Service.Exceptions;
-using Icarus.Service.Interfaces.DepartmentResponses;
+using Icarus.Domain.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Icarus.Service.Commons.Extensions;
+using Icarus.Service.DTOs.DepartmentResponses;
+using Icarus.Service.Interfaces.DepartmentResponses;
 
 namespace Icarus.Service.Services.DepartmentResponses;
 
@@ -128,6 +125,7 @@ public class DepartmentResponseService : IDepartmentResponseService
     public async Task<DResponseForResultDto> RetrieveByIdAsync(long id)
     {
         var departmentResponse = await _responseService.SelectAll()
+            .Where(dr => dr.Id == id)
             .Include(dr => dr.Request)
             .ThenInclude(r => r.FromWho)
             .Include(dr => dr.Request)
@@ -135,7 +133,8 @@ public class DepartmentResponseService : IDepartmentResponseService
             .ThenInclude(d => d.Asset)
             .AsNoTracking()
             .FirstOrDefaultAsync();
-        if (departmentResponse is  null)
+
+        if (departmentResponse is null)
             throw new IcarusException(404, "Department Response is not found");
 
         return this._mapper.Map<DResponseForResultDto>(departmentResponse);

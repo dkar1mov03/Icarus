@@ -2,11 +2,11 @@
 using Icarus.Domain.Entities;
 using Icarus.Service.Exceptions;
 using Icarus.Data.IRepositories;
+using Icarus.Domain.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Icarus.Service.DTOs.Categories;
-using Icarus.Service.Interfaces.Categories;
-using Icarus.Domain.Configurations;
 using Icarus.Service.Commons.Extensions;
+using Icarus.Service.Interfaces.Categories;
 
 namespace Icarus.Service.Services.Categories;
 

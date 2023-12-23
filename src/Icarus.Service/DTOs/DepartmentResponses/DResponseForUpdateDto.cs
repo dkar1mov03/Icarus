@@ -4,5 +4,5 @@ public class DResponseForUpdateDto
 {
     public long RequestId { get; set; }
     public long DepartmentId { get; set; }
-    public string ResponceBody { get; set; }
+    public string ResponseBody { get; set; }
 }
