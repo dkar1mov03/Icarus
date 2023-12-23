@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using Icarus.Data.IRepositories;
+using System.Data.Common;
 using Icarus.Domain.Entities;
-using Icarus.Service.DTOs.DepartmentCategories;
+using Icarus.Data.IRepositories;
 using Icarus.Service.Exceptions;
-using Icarus.Service.Interfaces.DepartmentCategories;
 using Microsoft.EntityFrameworkCore;
+using Icarus.Service.DTOs.DepartmentCategories;
+using Icarus.Service.Interfaces.DepartmentCategories;
 
 namespace Icarus.Service.Services.DepartmentCategories;
 
@@ -35,6 +36,7 @@ public class DepartmentCategoryService : IDepartmentCategoryService
         var mapped = _mapper.Map<DepartmentCategory>(dto);
         mapped.CreatedAt = DateTime.UtcNow;
         var result = await _departmentCategoryRepository.InsertAsync(mapped);
+        await _departmentCategoryRepository.SaveAsync();
 
         return _mapper.Map<DepartmentCategoryForResultDto>(result);
     }
@@ -57,22 +59,46 @@ public class DepartmentCategoryService : IDepartmentCategoryService
         var mapped = _mapper.Map(dto, departmentCategory);
         mapped.UpdatedAt = DateTime.UtcNow;
         var result = await _departmentCategoryRepository.UpdateAsync(mapped);
+        await _departmentCategoryRepository.SaveAsync();
 
         return _mapper.Map<DepartmentCategoryForResultDto>(result);
     }
 
-    public Task<bool> RemoveAsync(long id)
+    public async Task<bool> RemoveAsync(long id)
     {
-        throw new NotImplementedException();
+        var departmentCategory = await _departmentCategoryRepository.SelectAll()
+            .Where (dc => dc.Id == id)
+            .FirstOrDefaultAsync ();
+        if (departmentCategory is null)
+            throw new IcarusException(404, "Department Category is not found");
+
+        var result = await _departmentCategoryRepository.DeleteAsync(id);
+        await _departmentCategoryRepository.SaveAsync();
+
+        return result;
     }
 
-    public Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync()
     {
-        throw new NotImplementedException();
+        var departmentCategory = await _departmentCategoryRepository.SelectAll()
+                .Include(dc => dc.Category)
+                .AsNoTracking()
+                .ToListAsync();
+
+        return _mapper.Map<IEnumerable<DepartmentCategoryForResultDto>>(departmentCategory);
     }
 
-    public Task<DepartmentCategoryForResultDto> RetrieveByIdAsync(long id)
+    public async Task<DepartmentCategoryForResultDto> RetrieveByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var departmentCategory = await this._departmentCategoryRepository.SelectAll()
+                .Where(dc => dc.Id == id)
+                .Include(dc => dc.Category)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+        if (departmentCategory is null)
+            throw new IcarusException(404, "Department Category is not found");
+
+        return this._mapper.Map<DepartmentCategoryForResultDto>(departmentCategory);
     }
 }

@@ -4,6 +4,8 @@ using Icarus.Data.Repositories.Assets;
 using Icarus.Data.IRepositories.Assets;
 using Icarus.Service.Interfaces.Assets;
 using Icarus.Service.Services.Assets;
+using Icarus.Service.Interfaces.DepartmentCategories;
+using Icarus.Service.Services.DepartmentCategories;
 
 namespace Icarus.Api.Extensions;
 
@@ -20,5 +22,9 @@ public static class ServiceExtension
 
         // Generic Repository
         services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+
+        // DepartmentCategory
+        services.AddScoped<IDepartmentCategoryService, DepartmentCategoryService>();
+        services.AddScoped<IDepartmentCategoryRepository, DepartmentCategoryRepository>();
     }
 }
