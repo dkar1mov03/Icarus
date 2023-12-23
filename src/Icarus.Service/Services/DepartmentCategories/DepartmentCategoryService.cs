@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Data.Common;
 using Icarus.Domain.Entities;
 using Icarus.Data.IRepositories;
 using Icarus.Service.Exceptions;

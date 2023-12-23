@@ -12,4 +12,5 @@ public class User : Auditable<long>
     public string Image { get; set; }
     public Role Role { get; set; }
 
+    public ICollection<Request> Requests { get; set; }
 }
