@@ -7,6 +7,7 @@ public class Asset : Auditable<long>
     public string Email { get; set; }
     public string Phone { get; set; }
     public string Address { get; set; }
+    public decimal Rating { get; set; }
     public string TelegramUrl { get; set; }
     public string FacebookUrl { get; set; }
     public string InstagramUrl { get; set; }
