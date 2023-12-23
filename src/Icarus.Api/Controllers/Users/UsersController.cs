@@ -19,7 +19,7 @@ namespace Icarus.Api.Controllers.Users
             => Ok(await this._userService.AddAsync(dto));
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync(PaginationParams @params)
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
             => Ok(await this._userService.RetrieveAllAsync(@params));
 
 

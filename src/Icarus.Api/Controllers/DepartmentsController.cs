@@ -19,7 +19,7 @@ public class DepartmentsController : BaseController
         => Ok(await this._departmentsService.CreateAsync(dto));
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(PaginationParams @params)
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
         => Ok(await _departmentsService.RetrieveAllAsync(@params));
 
     [HttpGet("{id}")]
