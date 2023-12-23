@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Domain", "src\Icarus
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Service", "src\Icarus.Service\Icarus.Service.csproj", "{484B123C-D8B7-43C7-86D8-80A2CA7636F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.Api", "src\TelegramBot.Api\TelegramBot.Api.csproj", "{2A84EF69-C230-415C-9096-84D22A0D52F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBot.AdminPanel", "src\TelegramBot.AdminPanel\TelegramBot.AdminPanel.csproj", "{B861053B-E1E2-4C22-B3F1-46FB044E0A64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{484B123C-D8B7-43C7-86D8-80A2CA7636F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{484B123C-D8B7-43C7-86D8-80A2CA7636F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{484B123C-D8B7-43C7-86D8-80A2CA7636F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A84EF69-C230-415C-9096-84D22A0D52F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A84EF69-C230-415C-9096-84D22A0D52F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A84EF69-C230-415C-9096-84D22A0D52F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A84EF69-C230-415C-9096-84D22A0D52F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B861053B-E1E2-4C22-B3F1-46FB044E0A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B861053B-E1E2-4C22-B3F1-46FB044E0A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B861053B-E1E2-4C22-B3F1-46FB044E0A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B861053B-E1E2-4C22-B3F1-46FB044E0A64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +56,8 @@ Global
 		{5BFA92E8-A120-434B-B8D2-01D85D1AEDDB} = {0C3063D4-45BB-4DAB-8C1E-39D3B2E476A6}
 		{C46807AD-F191-4C84-BAD6-1DC4A46C6CD9} = {0C3063D4-45BB-4DAB-8C1E-39D3B2E476A6}
 		{484B123C-D8B7-43C7-86D8-80A2CA7636F3} = {0C3063D4-45BB-4DAB-8C1E-39D3B2E476A6}
+		{2A84EF69-C230-415C-9096-84D22A0D52F3} = {0C3063D4-45BB-4DAB-8C1E-39D3B2E476A6}
+		{B861053B-E1E2-4C22-B3F1-46FB044E0A64} = {0C3063D4-45BB-4DAB-8C1E-39D3B2E476A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E35F4B59-2262-400D-A707-66EA7375B0EE}

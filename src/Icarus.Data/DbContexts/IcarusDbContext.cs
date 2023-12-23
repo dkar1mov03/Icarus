@@ -17,34 +17,92 @@ public class IcarusDbContext : DbContext
     public DbSet<DepartmentCategory> DepartmentCategories { get; set; }
 
 
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    base.OnModelCreating(modelBuilder);
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // User Configuration
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Requests)
+            .WithOne(r => r.FromWho)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-    //    // Category - DepartmentCategory Configuration
+        // Request Configuration
+        modelBuilder.Entity<Request>()
+            .HasMany(r => r.DepartmentResponses)
+            .WithOne(dr => dr.Request)
+            .HasForeignKey(dr => dr.RequestId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-    //    //modelBuilder.Entity<Category>()
-    //    //    .HasMany(c => c.DepartmentCategories)
-    //    //    .WithOne(dc => dc.Category)
-    //    //    .HasForeignKey(dc => dc.CategoryId)
-    //    //    .OnDelete(DeleteBehavior.Cascade);
+        // Category Configuration
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.DepartmentCategories)
+            .WithOne(d => d.Category)
+            .HasForeignKey(d => d.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-    //    //// Department - DepartmentCategory Configuration
+        // Department Configuration
+        modelBuilder.Entity<Department>()
+            .HasMany(d => d.DepartmentCategories)
+            .WithOne(c => c.Department)
+            .HasForeignKey(c => c.DepartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-    //    //modelBuilder.Entity<Department>()
-    //    //    .HasMany(d => d.DepartmentCategories)
-    //    //    .WithOne(dc => dc.Department)
-    //    //    .HasForeignKey(dc => dc.DepartmentId)
-    //    //    .OnDelete(DeleteBehavior.Cascade);
+        // DepartmentResponse Configuration
+        modelBuilder.Entity<DepartmentResponse>()
+            .HasOne(dr => dr.Request)
+            .WithMany(r => r.DepartmentResponses)
+            .HasForeignKey(dr => dr.RequestId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-    //       SeedData(modelBuilder);
-    //}
+        // DepartmentResponse Configuration
+        modelBuilder.Entity<DepartmentResponse>()
+            .HasOne(dr => dr.WhichDepartment)
+            .WithMany();
 
-    //private static void SeedData(ModelBuilder modelBuilder)
-    //{
-    //    UserSeedData.SeedDataUsers(modelBuilder);
-    //    AssetSeetData.SeedDataAssets(modelBuilder);
-    //    DepartamentCategorySeedData.SeedDataDepartamentCategory(modelBuilder);
-    //}
+        // DepartmentCategory Configuration
+        modelBuilder.Entity<DepartmentCategory>()
+            .HasOne(dc => dc.Department)
+            .WithMany(d => d.DepartmentCategories)
+            .HasForeignKey(dc => dc.DepartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // DepartmentCategory Configuration
+        modelBuilder.Entity<DepartmentCategory>()
+            .HasOne(dc => dc.Category)
+            .WithMany(c => c.DepartmentCategories)
+            .HasForeignKey(dc => dc.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 
+
+
+
+        //    base.OnModelCreating(modelBuilder);
+
+        //    // Category - DepartmentCategory Configuration
+
+        //    //modelBuilder.Entity<Category>()
+        //    //    .HasMany(c => c.DepartmentCategories)
+        //    //    .WithOne(dc => dc.Category)
+        //    //    .HasForeignKey(dc => dc.CategoryId)
+        //    //    .OnDelete(DeleteBehavior.Cascade);
+
+        //    //// Department - DepartmentCategory Configuration
+
+        //    //modelBuilder.Entity<Department>()
+        //    //    .HasMany(d => d.DepartmentCategories)
+        //    //    .WithOne(dc => dc.Department)
+        //    //    .HasForeignKey(dc => dc.DepartmentId)
+        //    //    .OnDelete(DeleteBehavior.Cascade);
+
+        //       SeedData(modelBuilder);
+        //}
+
+        //private static void SeedData(ModelBuilder modelBuilder)
+        //{
+        //    UserSeedData.SeedDataUsers(modelBuilder);
+        //    AssetSeetData.SeedDataAssets(modelBuilder);
+        //    DepartamentCategorySeedData.SeedDataDepartamentCategory(modelBuilder);
+    }
 }
 
