@@ -33,7 +33,7 @@ namespace Icarus.Api.Controllers.Users
 
 
         [HttpDelete("{id}")]
-         public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
+        public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
             => Ok(await this._userService.RemoveAsync(id));
 
 

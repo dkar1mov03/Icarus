@@ -54,6 +54,8 @@ namespace Icarus.Service.Services.Users
                 .AsNoTracking()
                 .ToListAsync();
 
+            await _userRepository.SaveAsync();
+
             return  _mapper.Map<IEnumerable<UserForResultDto>>(allUser);
         }
 
@@ -80,6 +82,7 @@ namespace Icarus.Service.Services.Users
             mapped.CreatedAt = DateTime.UtcNow;
 
             var result = await _userRepository.InsertAsync(mapped);
+            await _userRepository.SaveAsync();
 
             return _mapper.Map<UserForResultDto>(result);
         }
@@ -91,6 +94,8 @@ namespace Icarus.Service.Services.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync() ??
                     throw new IcarusException(404, "User is not found! ");
+
+            await _userRepository.SaveAsync();
 
             return _mapper.Map<UserForResultDto>(emailUser);
 
@@ -128,6 +133,8 @@ namespace Icarus.Service.Services.Users
     
 
             await this._userRepository.UpdateAsync(mappedUser);
+
+            await _userRepository.SaveAsync();
 
             return this._mapper.Map<UserForResultDto>(mappedUser);
         }
