@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Categories\" />
+    <Folder Include="Interfaces\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

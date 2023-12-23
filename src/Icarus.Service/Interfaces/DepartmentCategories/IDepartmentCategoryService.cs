@@ -7,7 +7,7 @@ public interface IDepartmentCategoryService
 {
     Task<bool> RemoveAsync(long id);
     Task<DepartmentCategoryForResultDto> RetrieveByIdAsync(long id);
-    Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync(PaginationParams @params);
     Task<DepartmentCategoryForResultDto> CreateAsync(DepartmentCategoryForCreationDto dto);
+    Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync(PaginationParams @params);
     Task<DepartmentCategoryForResultDto> ModifyAsync(long id, DepartmentCategoryForUpdateDto dto);
 }
