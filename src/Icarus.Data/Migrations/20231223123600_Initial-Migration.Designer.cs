@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Icarus.Data.Migrations
 {
     [DbContext(typeof(IcarusDbContext))]
-    [Migration("20231223094057_RequestAdded")]
-    partial class RequestAdded
+    [Migration("20231223123600_Initial-Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,11 +42,6 @@ namespace Icarus.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -71,19 +66,15 @@ namespace Icarus.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assets");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Asset");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Icarus.Domain.Entities.Category", b =>
                 {
-                    b.Property<short>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<short>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -99,19 +90,49 @@ namespace Icarus.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Icarus.Domain.Entities.Department", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AssetId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Latitude")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Longitude")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("Icarus.Domain.Entities.DepartmentCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<short?>("CategoryId1")
-                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -127,7 +148,7 @@ namespace Icarus.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("DepartmentId");
 
@@ -246,25 +267,22 @@ namespace Icarus.Data.Migrations
 
             modelBuilder.Entity("Icarus.Domain.Entities.Department", b =>
                 {
-                    b.HasBaseType("Icarus.Domain.Entities.Asset");
+                    b.HasOne("Icarus.Domain.Entities.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Latitude")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Longitude")
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("numeric");
-
-                    b.HasDiscriminator().HasValue("Department");
+                    b.Navigation("Asset");
                 });
 
             modelBuilder.Entity("Icarus.Domain.Entities.DepartmentCategory", b =>
                 {
                     b.HasOne("Icarus.Domain.Entities.Category", "Category")
                         .WithMany("DepartmentCategories")
-                        .HasForeignKey("CategoryId1");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Icarus.Domain.Entities.Department", "Department")
                         .WithMany("DepartmentCategories")
@@ -320,6 +338,13 @@ namespace Icarus.Data.Migrations
                     b.Navigation("DepartmentCategories");
                 });
 
+            modelBuilder.Entity("Icarus.Domain.Entities.Department", b =>
+                {
+                    b.Navigation("DepartmentCategories");
+
+                    b.Navigation("Requests");
+                });
+
             modelBuilder.Entity("Icarus.Domain.Entities.Request", b =>
                 {
                     b.Navigation("DepartmentResponses");
@@ -327,13 +352,6 @@ namespace Icarus.Data.Migrations
 
             modelBuilder.Entity("Icarus.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Requests");
-                });
-
-            modelBuilder.Entity("Icarus.Domain.Entities.Department", b =>
-                {
-                    b.Navigation("DepartmentCategories");
-
                     b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618

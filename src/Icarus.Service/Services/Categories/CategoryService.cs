@@ -37,7 +37,7 @@ public class CategoryService : ICategoryService
         return this._mapper.Map<CategoryForResultDto>(result);
     }
 
-    public async Task<CategoryForResultDto> ModifyAsync(short id, CategoryForUpdateDto dto)
+    public async Task<CategoryForResultDto> ModifyAsync(long id, CategoryForUpdateDto dto)
     {
         var category = await _categoryRepository.SelectAll()
                 .Where(ud => ud.Id == id)
@@ -56,7 +56,7 @@ public class CategoryService : ICategoryService
         return this._mapper.Map<CategoryForResultDto>(result);
     }
 
-    public async Task<bool> RemoveAsync(short id)
+    public async Task<bool> RemoveAsync(long id)
     {
         var category = await _categoryRepository.SelectAll()
               .Where(c => c.Id == id)
@@ -78,13 +78,13 @@ public class CategoryService : ICategoryService
         var category = await _categoryRepository.SelectAll()
                 .Include(c => c.DepartmentCategories)
                 .AsNoTracking()
-                .ToPagedList<Category, short>(@params)
+                .ToPagedList<Category, long>(@params)
                 .ToListAsync();
 
         return _mapper.Map<IEnumerable<CategoryForResultDto>>(category);
     }
 
-    public async Task<CategoryForResultDto> RetrieveByIdAsync(short id)
+    public async Task<CategoryForResultDto> RetrieveByIdAsync(long id)
     {
         var category = await this._categoryRepository.SelectAll()
                 .Where(c => c.Id == id)

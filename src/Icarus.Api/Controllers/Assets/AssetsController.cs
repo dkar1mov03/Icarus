@@ -23,14 +23,14 @@ public class AssetsController : BaseController
         => Ok(await this._assetService.RetrieveAllAsync(@params));
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] short id)
+    public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
         => Ok(await this._assetService.RetrieveByIdAsync(id));
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] short id, [FromForm] AssetForUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] AssetForUpdateDto dto)
         => Ok(await this._assetService.ModifyAsync(id, dto));
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] short id)
+    public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
        => Ok(await this._assetService.RemoveAsync(id));
 }

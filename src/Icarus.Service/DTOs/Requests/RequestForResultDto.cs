@@ -1,14 +1,15 @@
 ﻿using Icarus.Domain.Enums;
 using Icarus.Domain.Entities;
+using Icarus.Service.DTOs.Users;
+using Icarus.Service.DTOs.Departments;
 
 namespace Icarus.Service.DTOs.Requests;
 public class RequestForResultDto
 {
-    public long UserId { get; set; }
-    public User FromWho { get; set; }
-    public long DepartmentId { get; set; }
-    public Department WhichDepartment { get; set; }
+    public long Id { get; set; }
     public string RequestBody { get; set; }
     public string RequestTitle { get; set; }
     public Status Status { get; set; }
+    public UserForResultDto FromWho { get; set; }
+    public DepartmentForResultDto WhichDepartment { get; set; }
 }
