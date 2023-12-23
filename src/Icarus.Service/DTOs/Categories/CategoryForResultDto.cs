@@ -1,4 +1,5 @@
 ﻿using Icarus.Domain.Entities;
+using Icarus.Service.DTOs.DepartmentCategories;
 
 namespace Icarus.Service.DTOs.Categories;
 
