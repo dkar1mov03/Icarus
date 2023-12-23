@@ -11,6 +11,7 @@ using Icarus.Data.Repositories.Users;
 using Icarus.Service.Interfaces.Categories;
 using Icarus.Service.Services.Categories;
 
+
 namespace Icarus.Api.Extensions;
 
 public static class ServiceExtension
@@ -24,14 +25,13 @@ public static class ServiceExtension
         services.AddScoped<IAssetService,AssetService>();
         services.AddScoped<IAssetRepository, AssetRepository>();
 
-        // Generic Repository
-        services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
-
         // Users
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserRepository, UserRepository>();
+
         // Category
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository,CategoryRepository>();
+
     }
 }

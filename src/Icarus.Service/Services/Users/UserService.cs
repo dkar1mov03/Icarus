@@ -7,6 +7,7 @@ using Icarus.Service.DTOs.Users;
 using Microsoft.EntityFrameworkCore;
 using Icarus.Data.IRepositories.Users;
 using Icarus.Service.Interfaces.Users;
+using Icarus.Service.Helpers.Hasher;
 
 namespace Icarus.Service.Services.Users
 {
@@ -22,25 +23,29 @@ namespace Icarus.Service.Services.Users
 
         public async Task<bool> RemoveAsync(long id)
         {
-            var removeUser = await _userRepository.SelectAll()
+            var user = await _userRepository.SelectAll()
                 .Where(u => u.Id == id)
                 .AsNoTracking()
-                .FirstOrDefaultAsync() ??
-                    throw new IcarusException(404, "User is not found !");
+                .FirstOrDefaultAsync();
 
-            var imageFullPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, removeUser.Image);
+            if (user is null)
+                throw new IcarusException(404, "User is not found !");
+
+            var imageFullPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, user.Image);
 
             if (File.Exists(imageFullPath))
                 File.Delete(imageFullPath);
 
             await _userRepository.DeleteAsync(id);
+            await _userRepository.SaveAsync();
+
             return true;
         }
 
         public async Task<UserForResultDto> RetrieveByIdAsync(long id)
         {
             var byIdUser = await _userRepository.SelectAll()
-                .Where(u => u.Id.Equals(id))
+                .Where(u => u.Id == id)
                 .AsNoTracking()
                 .FirstOrDefaultAsync() ??
                     throw new IcarusException(404, "User is not found! ");
@@ -50,13 +55,13 @@ namespace Icarus.Service.Services.Users
 
         public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync()
         {
-          var allUser = await _userRepository.SelectAll()
-                .AsNoTracking()
-                .ToListAsync();
+            var allUser = await _userRepository.SelectAll()
+                  .AsNoTracking()
+                  .ToListAsync();
 
             await _userRepository.SaveAsync();
 
-            return  _mapper.Map<IEnumerable<UserForResultDto>>(allUser);
+            return _mapper.Map<IEnumerable<UserForResultDto>>(allUser);
         }
 
         public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
@@ -65,21 +70,15 @@ namespace Icarus.Service.Services.Users
                 .Where(u => u.Email.ToLower() == dto.Email.ToLower())
                 .FirstOrDefaultAsync();
 
-            if (addUser is not  null)
+            if (addUser is not null)
                 throw new IcarusException(409, "User alredy exists");
 
-            var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
-            var imageRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Users", "Images", imageFileName);
-            using (var stream = new FileStream(imageRootPath, FileMode.Create))
-            {
-                await dto.Image.CopyToAsync(stream);
-                await stream.FlushAsync();
-                stream.Close();
-            }
-            string imageResult = Path.Combine("Media", "Users", "Images", imageFileName);
+            var image = await MediaHelper.UploadFile(dto.Image);
 
             var mapped = _mapper.Map<User>(dto);
             mapped.CreatedAt = DateTime.UtcNow;
+            mapped.Password = HashPasswordHelper.PasswordHasher(dto.Password);
+            mapped.Image = image;
 
             var result = await _userRepository.InsertAsync(mapped);
             await _userRepository.SaveAsync();
@@ -89,48 +88,37 @@ namespace Icarus.Service.Services.Users
 
         public async Task<UserForResultDto> RetrieveByEmailAsync(string email)
         {
-            var emailUser = await _userRepository.SelectAll()
+            var user = await _userRepository.SelectAll()
                 .Where(u => u.Email == email)
                 .AsNoTracking()
-                .FirstOrDefaultAsync() ??
-                    throw new IcarusException(404, "User is not found! ");
+                .FirstOrDefaultAsync();
+
+            if (user is null)
+                throw new IcarusException(404, "User is not found! ");
 
             await _userRepository.SaveAsync();
 
-            return _mapper.Map<UserForResultDto>(emailUser);
+            return _mapper.Map<UserForResultDto>(user);
 
         }
 
         public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
         {
-            var updateUser = await _userRepository.SelectAll()
+            var user = await _userRepository.SelectAll()
                .Where(u => u.Id == id)
                .AsNoTracking()
-               .FirstOrDefaultAsync() ??
+               .FirstOrDefaultAsync();
+
+            if(user is null)
                    throw new IcarusException(404, "User is not found");
 
+            var image = await MediaHelper.UploadFile(dto.Image);
 
-            var imageFullPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, updateUser.Image);
-
-            if (File.Exists(imageFullPath))
-                File.Delete(imageFullPath);
-
-            var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
-            var imageRootPath = Path.Combine(WebHostEnvironmentHelper.WebRootPath, "Media", "Users", "Images", imageFileName);
-            using (var stream = new FileStream(imageRootPath, FileMode.Create))
-            {
-                await dto.Image.CopyToAsync(stream);
-                await stream.FlushAsync();
-                stream.Close();
-            }
-
-            string imageResult = Path.Combine("Media", "Users", "Images", imageFileName);
-
-            var mappedUser = this._mapper.Map(dto, updateUser);
+            var mappedUser = this._mapper.Map(dto, user);
             mappedUser.UpdatedAt = DateTime.UtcNow;
+            mappedUser.Password = HashPasswordHelper.PasswordHasher(dto.Password);
+            mappedUser.Image = image;
 
-            mappedUser.Image = imageResult;
-    
 
             await this._userRepository.UpdateAsync(mappedUser);
 
