@@ -23,4 +23,12 @@
     <ProjectReference Include="..\Icarus.Domain\Icarus.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DbContexts\SeedDatas\SeedDataRequests\" />
+    <Folder Include="DbContexts\SeedDatas\SeedDataDepartments\" />
+    <Folder Include="DbContexts\SeedDatas\SeedDataCategories\" />
+    <Folder Include="DbContexts\SeedDatas\SeedDataAssets\" />
+    <Folder Include="DbContexts\SeedDatas\SeedDataUsers\" />
+  </ItemGroup>
+
 </Project>

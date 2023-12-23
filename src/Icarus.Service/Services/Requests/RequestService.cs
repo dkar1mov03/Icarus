@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Icarus.Domain.Enums;
 using Icarus.Domain.Entities;
 using Icarus.Data.IRepositories;
 using Icarus.Service.Exceptions;
@@ -8,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Icarus.Data.IRepositories.Users;
 using Icarus.Service.Commons.Extensions;
 using Icarus.Service.Interfaces.Requests;
-using Icarus.Domain.Enums;
 
 namespace Icarus.Service.Services.Requests;
 
@@ -18,7 +18,11 @@ public class RequestService : IRequestService
     private readonly IUserRepository _userRepository;
     private readonly IRequestRepository _requestRepository;
     private readonly IDepartmentRepository _departmentRepository;
-    public RequestService(IRequestRepository requestRepository, IMapper mapper, IUserRepository userRepository, IDepartmentRepository departmentRepository)
+    public RequestService
+        (IMapper mapper, 
+        IUserRepository userRepository, 
+        IRequestRepository requestRepository,
+        IDepartmentRepository departmentRepository)
     {
         _mapper = mapper;
         _userRepository = userRepository;
@@ -43,7 +47,7 @@ public class RequestService : IRequestService
             .FirstOrDefaultAsync();
 
         if (request is not null)
-            throw new IcarusException(405, "You can not do it,because you have already unreaded request");
+            throw new IcarusException(405, "You can not do it, because you have already unreaded request");
 
         var department = await _departmentRepository.SelectAll()
             .Where(c => c.Id == dto.DepartmentId)
