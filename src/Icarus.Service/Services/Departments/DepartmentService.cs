@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Icarus.Data.IRepositories;
+using Icarus.Domain.Configurations;
 using Icarus.Domain.Entities;
+using Icarus.Service.Commons.Extensions;
 using Icarus.Service.DTOs.Departments;
 using Icarus.Service.Exceptions;
 using Icarus.Service.Interfaces.Departments;
@@ -67,10 +69,11 @@ public class DepartmentService : IDepartmentService
         return result;
     }
 
-    public async Task<IEnumerable<DepartmentForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<DepartmentForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var department = await _repository.SelectAll()
             .AsNoTracking()
+            .ToPagedList<Department, long>(@params)
             .ToListAsync();
         
         return _mapper.Map<IEnumerable<DepartmentForResultDto>>(department);
