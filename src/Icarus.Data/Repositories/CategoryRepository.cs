@@ -4,7 +4,7 @@ using Icarus.Domain.Entities;
 
 namespace Icarus.Data.Repositories;
 
-public class CategoryRepository : Repository<Category, short>, ICategoryRepository
+public class CategoryRepository : Repository<Category, long>, ICategoryRepository
 {
     public CategoryRepository(IcarusDbContext DbContext) : base(DbContext)
     {

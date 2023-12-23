@@ -101,10 +101,11 @@ public class DepartmentCategoryService : IDepartmentCategoryService
     public async Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var departmentCategory = await _departmentCategoryRepository.SelectAll()
-                .Include(dc => dc.Category)
-                .Include(dc => dc.Department)
+                .Include(c => c.Category)
+                .Include(d => d.Department)
+                .ThenInclude(a => a.Asset)
                 .AsNoTracking()
-                .ToPagedList<DepartmentCategory, int>(@params)
+                .ToPagedList<DepartmentCategory, long>(@params)
                 .ToListAsync();
 
         return _mapper.Map<IEnumerable<DepartmentCategoryForResultDto>>(departmentCategory);
@@ -114,8 +115,9 @@ public class DepartmentCategoryService : IDepartmentCategoryService
     {
         var departmentCategory = await this._departmentCategoryRepository.SelectAll()
                 .Where(dc => dc.Id == id)
-                .Include(dc => dc.Category)
-                .Include(dc => dc.Department)
+                .Include(c => c.Category)
+                .Include(d => d.Department)
+                .ThenInclude(a => a.Asset)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 

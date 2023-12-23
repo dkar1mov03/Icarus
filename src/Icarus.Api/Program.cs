@@ -71,7 +71,7 @@ app.UseMiddleware<ExceptionHandlerMiddleWare>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthorization();
-
+app.UseCors("AAA");
 
 app.MapControllers();
 

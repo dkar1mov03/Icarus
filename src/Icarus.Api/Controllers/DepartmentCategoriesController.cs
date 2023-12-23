@@ -23,14 +23,14 @@ public class DepartmentCategoriesController : BaseController
         => Ok(await this._service.RetrieveAllAsync(@params));
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] short id)
+    public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
         => Ok(await this._service.RetrieveByIdAsync(id));
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] short id, [FromBody] DepartmentCategoryForUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] DepartmentCategoryForUpdateDto dto)
         => Ok(await this._service.ModifyAsync(id, dto));
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] short id)
+    public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
        => Ok(await this._service.RemoveAsync(id));
 }

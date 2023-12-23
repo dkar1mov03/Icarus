@@ -12,12 +12,14 @@ namespace Icarus.Service.DTOs.Users
         [Required, MinLength(3)]
         public string LastName { get; set; }
 
-        [IcarusEmailAttribute]
+        [Required, IcarusEmailAttribute]
         public string Email { get; set; }
 
-        //[Phone(ErrorMessage = "Enter phone number!")]
-        [RegularExpression(@"^\+?\d{1,3}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,10}$", ErrorMessage = "Invalid phone number")]
+        [Required, PhoneAttribute]
+        [RegularExpression(@"^\+?\d{1,7}?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,10}$", ErrorMessage = "Invalid phone number")]
         public string Phone { get; set; }
+
+        [Required, MinLength(8), MaxLength(32)] 
         public string Password { get; set; }
         public IFormFile Image { get; set; }
 

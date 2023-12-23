@@ -2,7 +2,7 @@
 
 namespace Icarus.Data.IRepositories;
 
-public interface ICategoryRepository : IRepository<Category, long>
+public interface IRequestRepository : IRepository<Request, long>
 {
 
 }

@@ -4,6 +4,7 @@ using Icarus.Data.IRepositories;
 using Icarus.Data.Repositories;
 using Icarus.Domain.Configurations;
 using Icarus.Domain.Entities;
+using Icarus.Domain.Enums;
 using Icarus.Service.Commons.Extensions;
 using Icarus.Service.DTOs.DepartmentCategories;
 using Icarus.Service.DTOs.DepartmentResponses;
@@ -16,19 +17,19 @@ namespace Icarus.Service.Services.DepartmentResponses;
 public class DepartmentResponseService : IDepartmentResponseService
 {
     private readonly IMapper _mapper;
-    //private readonly IRequestRepository _requestRepository;
+    private readonly IRequestRepository _requestRepository;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IDepartmentResponseReposiroty _responseService;
 
     public DepartmentResponseService(
         IMapper mapper,
-        //IRequestRepository requestRepository,
+        IRequestRepository requestRepository,
         IDepartmentResponseReposiroty responseService,
         IDepartmentRepository departmentRepository)
     {
         _mapper = mapper;
         _responseService = responseService;
-        //_requestRepository = requestRepository;
+        _requestRepository = requestRepository;
         _departmentRepository = departmentRepository;
     }
 
@@ -48,11 +49,16 @@ public class DepartmentResponseService : IDepartmentResponseService
         if (department is null)
             throw new IcarusException(404, "Department is not found");
 
+
         var mapped = _mapper.Map<DepartmentResponse>(dto);
         mapped.CreatedAt = DateTime.UtcNow;
 
         var result = await _responseService.InsertAsync(mapped);
         await _responseService.SaveAsync();
+
+        request.Status = Status.Answered;
+        await _requestRepository.UpdateAsync(request);
+        await _requestRepository.SaveAsync();
 
         return _mapper.Map<DResponseForResultDto>(result);
     }
@@ -95,7 +101,7 @@ public class DepartmentResponseService : IDepartmentResponseService
             .Where(dr => dr.Id == id)
             .AsNoTracking()
             .FirstOrDefaultAsync();
-        if (departmentResponse is not null)
+        if (departmentResponse is null)
             throw new IcarusException(404, "Department Response is not found");
 
         var result = await _responseService.DeleteAsync(id);
@@ -108,7 +114,10 @@ public class DepartmentResponseService : IDepartmentResponseService
     {
         var departmentResponse = await _responseService.SelectAll()
             .Include(dr => dr.Request)
-            .Include(dr => dr.Department)
+            .ThenInclude(r => r.FromWho)
+            .Include(dr => dr.Request)
+            .ThenInclude(r => r.WhichDepartment)
+            .ThenInclude(d => d.Asset)
             .AsNoTracking()
             .ToPagedList<DepartmentResponse, long>(@params)
             .ToListAsync();
@@ -120,10 +129,13 @@ public class DepartmentResponseService : IDepartmentResponseService
     {
         var departmentResponse = await _responseService.SelectAll()
             .Include(dr => dr.Request)
-            .Include(dr => dr.Department)
+            .ThenInclude(r => r.FromWho)
+            .Include(dr => dr.Request)
+            .ThenInclude(r => r.WhichDepartment)
+            .ThenInclude(d => d.Asset)
             .AsNoTracking()
             .FirstOrDefaultAsync();
-        if (departmentResponse is not null)
+        if (departmentResponse is  null)
             throw new IcarusException(404, "Department Response is not found");
 
         return this._mapper.Map<DResponseForResultDto>(departmentResponse);

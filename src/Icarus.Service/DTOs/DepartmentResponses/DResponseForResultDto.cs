@@ -7,5 +7,5 @@ public class DResponseForResultDto
     public long Id { get; set; }
     public string ResponceBody { get; set; }
     public RequestForResultDto Request { get; set; }
-    public DepartmentForResultDto Department { get; set; }
+    //public DepartmentForResultDto WhichDepartment { get; set; }
 }
