@@ -1,11 +1,11 @@
-﻿using Icarus.Domain.Entities;
+﻿using Icarus.Service.DTOs.Requests;
+using Icarus.Service.DTOs.Departments;
 
 namespace Icarus.Service.DTOs.DepartmentResponses;
 public class DResponseForResultDto
 {
-    public long RequestId { get; set; }
-    public Request Request { get; set; }
-    public long DepartmentId { get; set; }
-    public Department Department { get; set; }
+    public long Id { get; set; }
     public string ResponceBody { get; set; }
+    public RequestForResultDto Request { get; set; }
+    //public DepartmentForResultDto WhichDepartment { get; set; }
 }

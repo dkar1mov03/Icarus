@@ -5,6 +5,7 @@ using Icarus.Service.DTOs.Assets;
 using Icarus.Service.DTOs.Categories;
 using Icarus.Service.DTOs.Departments;
 using Icarus.Service.DTOs.DepartmentCategories;
+using Icarus.Service.DTOs.DepartmentResponses;
 using Icarus.Service.DTOs.Requests;
 
 namespace Icarus.Service.Mappers;
@@ -32,6 +33,11 @@ public class MappingProfile : Profile
         CreateMap<DepartmentCategory,DepartmentCategoryForUpdateDto>().ReverseMap();
         CreateMap<DepartmentCategory, DepartmentCategoryForResultDto>().ReverseMap();
         CreateMap<DepartmentCategory, DepartmentCategoryForCreationDto>().ReverseMap();
+
+        // DepartmentResponse
+        CreateMap<DepartmentResponse,DResponseForResultDto>().ReverseMap();
+        CreateMap<DepartmentResponse,DResponseForUpdateDto>().ReverseMap();
+        CreateMap<DepartmentResponse,DResponseForCreationDto>().ReverseMap();
 
         // User
         CreateMap<User, UserForCreationDto>().ReverseMap();

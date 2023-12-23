@@ -6,8 +6,9 @@ public class DepartmentResponse : Auditable<long>
 {
     public long RequestId { get; set; }
     public Request Request { get; set; }
+
     public long DepartmentId { get; set; }
-    public Department Department { get; set; }
+    public Department WhichDepartment { get; set; }
 
     public string ResponceBody { get; set; }
 }

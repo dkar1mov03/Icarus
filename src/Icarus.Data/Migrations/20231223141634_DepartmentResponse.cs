@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Icarus.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class DepartmentResponse : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -124,7 +124,7 @@ namespace Icarus.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Request",
+                name: "Requests",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -139,15 +139,15 @@ namespace Icarus.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Request", x => x.Id);
+                    table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Request_Departments_DepartmentId",
+                        name: "FK_Requests_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Request_Users_UserId",
+                        name: "FK_Requests_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -155,7 +155,7 @@ namespace Icarus.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentResponse",
+                name: "DepartmentResponses",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -168,17 +168,17 @@ namespace Icarus.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentResponse", x => x.Id);
+                    table.PrimaryKey("PK_DepartmentResponses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DepartmentResponse_Departments_DepartmentId",
+                        name: "FK_DepartmentResponses_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentResponse_Request_RequestId",
+                        name: "FK_DepartmentResponses_Requests_RequestId",
                         column: x => x.RequestId,
-                        principalTable: "Request",
+                        principalTable: "Requests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -194,13 +194,13 @@ namespace Icarus.Data.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentResponse_DepartmentId",
-                table: "DepartmentResponse",
+                name: "IX_DepartmentResponses_DepartmentId",
+                table: "DepartmentResponses",
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentResponse_RequestId",
-                table: "DepartmentResponse",
+                name: "IX_DepartmentResponses_RequestId",
+                table: "DepartmentResponses",
                 column: "RequestId");
 
             migrationBuilder.CreateIndex(
@@ -209,13 +209,13 @@ namespace Icarus.Data.Migrations
                 column: "AssetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Request_DepartmentId",
-                table: "Request",
+                name: "IX_Requests_DepartmentId",
+                table: "Requests",
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Request_UserId",
-                table: "Request",
+                name: "IX_Requests_UserId",
+                table: "Requests",
                 column: "UserId");
         }
 
@@ -226,13 +226,13 @@ namespace Icarus.Data.Migrations
                 name: "DepartmentCategories");
 
             migrationBuilder.DropTable(
-                name: "DepartmentResponse");
+                name: "DepartmentResponses");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Request");
+                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "Departments");
