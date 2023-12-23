@@ -46,6 +46,7 @@ public class AssetService : IAssetService
         mappedAsset.Logo = logoResult;
         
         var createAsset = await _assetRepository.InsertAsync(mappedAsset);
+        await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(createAsset);
     }
@@ -77,9 +78,10 @@ public class AssetService : IAssetService
         var mappedAsset = _mapper.Map(dto, asset);
         mappedAsset.UpdatedAt = DateTime.UtcNow;
         mappedAsset.Logo = logoResult;
-        await _assetRepository.UpdateAsync(mappedAsset);
+        var result = await _assetRepository.UpdateAsync(mappedAsset);
+        await _assetRepository.SaveAsync();
 
-        return _mapper.Map<AssetForResultDto>(mappedAsset);
+        return _mapper.Map<AssetForResultDto>(result);
     }
 
     public async Task<bool> RemoveAsync(long id)
@@ -96,16 +98,19 @@ public class AssetService : IAssetService
         if (File.Exists(logoFullPath))
             File.Delete(logoFullPath);
 
-        return await _assetRepository.DeleteAsync(id);
+        var result = await _assetRepository.DeleteAsync(id);
+        await _assetRepository.SaveAsync();
+
+        return result;
     }
 
     public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync()
     {
-        var asset = await _assetRepository.SelectAll()
+        var assets = await _assetRepository.SelectAll()
             .AsNoTracking()
-            .FirstOrDefaultAsync();
+            .ToListAsync();
         
-        return _mapper.Map<IEnumerable<AssetForResultDto>>(asset);
+        return _mapper.Map<IEnumerable<AssetForResultDto>>(assets);
     }
 
     public async Task<AssetForResultDto> RetrieveByIdAsync(long id)
