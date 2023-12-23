@@ -8,6 +8,7 @@ using Icarus.Service.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Icarus.Service.Helpers;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +24,9 @@ builder.Services.AddCustomService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*Serilog
-var logger = new LoggerConfiguration()
-   .ReadFrom.Configuration(builder.Configuration)
-   .Enrich.FromLogContext()
-   .CreateLogger();
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
-*/
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

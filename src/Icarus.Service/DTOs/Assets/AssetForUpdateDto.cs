@@ -26,6 +26,4 @@ public class AssetForUpdateDto
 
     [UrlAttribute]
     public string FacebookUrl { get; set; }
-    public string Latitude { get; set; }
-    public string Longitude { get; set; }
 }

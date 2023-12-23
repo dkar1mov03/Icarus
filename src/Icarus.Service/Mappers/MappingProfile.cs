@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Icarus.Domain.Entities;
+using Icarus.Service.DTOs.Users;
 using Icarus.Service.DTOs.Assets;
 using Icarus.Service.DTOs.Categories;
-<<<<<<< HEAD
+using Icarus.Service.DTOs.Departments;
 using Icarus.Service.DTOs.DepartmentCategories;
-=======
-using Icarus.Service.DTOs.Users;
->>>>>>> f402d2ca69fb4d62a1a466115dfe5b9cd77079f6
 
 namespace Icarus.Service.Mappers;
 
@@ -14,22 +12,27 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Assets
+        // Asset
         CreateMap<Asset,AssetForResultDto>().ReverseMap();
         CreateMap<Asset,AssetForUpdateDto>().ReverseMap();
         CreateMap<Asset,AssetForCreationDto>().ReverseMap();
 
-        // Categories
+        // Category
         CreateMap<Category,CategoryForResultDto>().ReverseMap();
         CreateMap<Category,CategoryForUpdateDto>().ReverseMap();
         CreateMap<Category,CategoryForCreationDto>().ReverseMap();
 
-        // DepartmentCategories
+        // Department
+        CreateMap<Department,DepartmentForCreationDto>().ReverseMap();
+        CreateMap<Department, DepartmentForResultDto>().ReverseMap();
+        CreateMap<Department,DepartmentForUpdateDto>().ReverseMap();
+
+        // DepartmentCategory
         CreateMap<DepartmentCategory,DepartmentCategoryForUpdateDto>().ReverseMap();
         CreateMap<DepartmentCategory, DepartmentCategoryForResultDto>().ReverseMap();
         CreateMap<DepartmentCategory, DepartmentCategoryForCreationDto>().ReverseMap();
 
-        // Users
+        // User
         CreateMap<User, UserForCreationDto>().ReverseMap();
         CreateMap<User, UserForUpdateDto>().ReverseMap();
         CreateMap<User, UserForResultDto>().ReverseMap();

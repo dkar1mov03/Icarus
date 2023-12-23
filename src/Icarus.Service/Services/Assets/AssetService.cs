@@ -54,18 +54,15 @@ public class AssetService : IAssetService
         if (asset is null)
             throw new IcarusException(404, "Asset is not found");
 
-        string logo = await MediaHelper.UploadFile(dto.Logo);
+        string logoResult = await MediaHelper.UploadFile(dto.Logo);
 
         var mappedAsset = _mapper.Map(dto, asset);
         mappedAsset.UpdatedAt = DateTime.UtcNow;
-<<<<<<< HEAD
         mappedAsset.Logo = logoResult;
         var result = await _assetRepository.UpdateAsync(mappedAsset);
-=======
-        mappedAsset.Logo = logo;
+        mappedAsset.Logo = logoResult;
 
         await _assetRepository.UpdateAsync(mappedAsset);
->>>>>>> f402d2ca69fb4d62a1a466115dfe5b9cd77079f6
         await _assetRepository.SaveAsync();
 
         return _mapper.Map<AssetForResultDto>(result);
@@ -85,17 +82,10 @@ public class AssetService : IAssetService
         if (File.Exists(logoFullPath))
             File.Delete(logoFullPath);
 
-<<<<<<< HEAD
-        var result = await _assetRepository.DeleteAsync(id);
-        await _assetRepository.SaveAsync();
-
-        return result;
-=======
         await _assetRepository.DeleteAsync(id);
         await _assetRepository.SaveAsync();
 
         return true;
->>>>>>> f402d2ca69fb4d62a1a466115dfe5b9cd77079f6
     }
 
     public async Task<IEnumerable<AssetForResultDto>> RetrieveAllAsync()
