@@ -1,36 +1,63 @@
 
-namespace Icarus.Api
+using Serilog;
+using Icarus.Api.Models;
+using Icarus.Api.Extensions;
+using Icarus.Data.DbContexts;
+using Icarus.Api.Middlewares;
+using Icarus.Service.Mappers;
+using Icarus.Service.Helpers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
+var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddDbContext<IcarusDbContext>(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-            // Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddCustomService();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+// Serilog
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
-            var app = builder.Build();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+// Configure api url name
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RouteTokenTransformerConvention(
+                                        new ConfigurationApiUrlName()));
+});
 
-            app.UseHttpsRedirection();
+var app = builder.Build();
+WebHostEnvironmentHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+
+app.UseMiddleware<ExceptionHandlerMiddleWare>();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAuthorization();
+
+
+app.MapControllers();
+
+app.Run();
+
