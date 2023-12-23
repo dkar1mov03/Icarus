@@ -1,4 +1,5 @@
-﻿using Icarus.Service.DTOs.Assets;
+﻿using Icarus.Domain.Configurations;
+using Icarus.Service.DTOs.Assets;
 using Icarus.Service.Interfaces.Assets;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +19,8 @@ public class AssetsController : BaseController
            => Ok(await this._assetService.CreateAsync(dto));
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-        => Ok(await this._assetService.RetrieveAllAsync());
+    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
+        => Ok(await this._assetService.RetrieveAllAsync(@params));
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] short id)
