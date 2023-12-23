@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Icarus.Domain\Icarus.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DbContexts\SeedDatas\UsersSeedDatas\" />
+  </ItemGroup>
+
 </Project>

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Icarus.Data.DbContexts;
-public class IcarusDbContext:DbContext
+public class IcarusDbContext : DbContext
 {
-    public IcarusDbContext(DbContextOptions<IcarusDbContext> options):base(options)
+    public IcarusDbContext(DbContextOptions<IcarusDbContext> options) : base(options)
     {
     }
 
@@ -13,4 +13,20 @@ public class IcarusDbContext:DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<DepartmentCategory> DepartmentCategories { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {          
+        // Category - DepartmentCategory Configuration
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.DepartmentCategories)
+            .WithOne(dc => dc.Category)
+            .HasForeignKey(dc => dc.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Department - DepartmentCategory Configuration
+        modelBuilder.Entity<Department>()
+            .HasMany(d => d.DepartmentCategories)
+            .WithOne(dc => dc.Department)
+            .HasForeignKey(dc => dc.DepartmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
