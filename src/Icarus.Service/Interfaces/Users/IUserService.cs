@@ -1,4 +1,5 @@
-﻿using Icarus.Service.DTOs.Users;
+﻿using Icarus.Domain.Configurations;
+using Icarus.Service.DTOs.Users;
 
 namespace Icarus.Service.Interfaces.Users
 {
@@ -6,7 +7,7 @@ namespace Icarus.Service.Interfaces.Users
     {
         Task<bool> RemoveAsync (long id);
         Task<UserForResultDto> RetrieveByIdAsync(long id);
-        Task<IEnumerable<UserForResultDto>> RetrieveAllAsync();
+        Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params);
         Task<UserForResultDto> AddAsync (UserForCreationDto dto);
         Task<UserForResultDto> RetrieveByEmailAsync(string email);
         Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto);

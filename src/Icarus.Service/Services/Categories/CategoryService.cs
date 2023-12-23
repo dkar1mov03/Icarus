@@ -22,7 +22,7 @@ public class CategoryService : ICategoryService
     public async Task<CategoryForResultDto> CreateAsync(CategoryForCreationDto dto)
     {
         var category = await _categoryRepository.SelectAll()
-            .Where(c => c.Name == dto.Name)
+            .Where(c => c.Name.ToLower() == dto.Name.ToLower())
             .AsNoTracking()
             .FirstOrDefaultAsync();
 

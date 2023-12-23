@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using System.Data.Common;
 using Icarus.Domain.Entities;
 using Icarus.Data.IRepositories;
 using Icarus.Service.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Icarus.Service.DTOs.DepartmentCategories;
 using Icarus.Service.Interfaces.DepartmentCategories;
+using Icarus.Domain.Configurations;
+using Icarus.Service.Commons.Extensions;
 
 namespace Icarus.Service.Services.DepartmentCategories;
 
@@ -97,12 +98,13 @@ public class DepartmentCategoryService : IDepartmentCategoryService
         return result;
     }
 
-    public async Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<DepartmentCategoryForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var departmentCategory = await _departmentCategoryRepository.SelectAll()
                 .Include(dc => dc.Category)
                 .Include(dc => dc.Department)
                 .AsNoTracking()
+                .ToPagedList<DepartmentCategory, int>(@params)
                 .ToListAsync();
 
         return _mapper.Map<IEnumerable<DepartmentCategoryForResultDto>>(departmentCategory);

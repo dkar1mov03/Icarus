@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Icarus.Data.IRepositories.Users;
 using Icarus.Service.Interfaces.Users;
 using Icarus.Service.Helpers.Hasher;
+using Icarus.Domain.Configurations;
+using Icarus.Service.Commons.Extensions;
 
 namespace Icarus.Service.Services.Users
 {
@@ -53,10 +55,11 @@ namespace Icarus.Service.Services.Users
             return _mapper.Map<UserForResultDto>(byIdUser);
         }
 
-        public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync()
+        public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params)
         {
             var allUser = await _userRepository.SelectAll()
                   .AsNoTracking()
+                  .ToPagedList<User, long>(@params)
                   .ToListAsync();
 
             await _userRepository.SaveAsync();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Icarus.Service.DTOs.Users;
 using Icarus.Service.Interfaces.Users;
+using Icarus.Domain.Configurations;
 
 namespace Icarus.Api.Controllers.Users
 {
@@ -18,8 +19,8 @@ namespace Icarus.Api.Controllers.Users
             => Ok(await this._userService.AddAsync(dto));
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
-            => Ok(await this._userService.RetrieveAllAsync());
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
+            => Ok(await this._userService.RetrieveAllAsync(@params));
 
 
         [HttpGet("{id}")]
