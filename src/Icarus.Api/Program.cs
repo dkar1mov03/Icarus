@@ -37,7 +37,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-=======
 // Serialog
 var logger = new LoggerConfiguration()
    .ReadFrom.Configuration(builder.Configuration)
