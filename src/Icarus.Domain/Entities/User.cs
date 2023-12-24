@@ -1,5 +1,4 @@
-﻿using Icarus.Domain.Enums;
-using Icarus.Domain.Commons;
+﻿using Icarus.Domain.Commons;
 
 namespace Icarus.Domain.Entities;
 public class User : Auditable<long>
