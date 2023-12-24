@@ -129,5 +129,20 @@ namespace Icarus.Service.Services.Users
 
             return this._mapper.Map<UserForResultDto>(mappedUser);
         }
+
+        public async Task<UserForResultDto> RetrieveByPhoneNumber(string phoneNumber)
+        {
+            var user = await _userRepository.SelectAll()
+                 .Where(u => u.Phone.Trim() == phoneNumber.Trim())
+                 .AsNoTracking()
+                 .FirstOrDefaultAsync();
+
+            if (user is null)
+                throw new IcarusException(404, "User is not found!");
+
+            return _mapper.Map<UserForResultDto>(user);
+        }
+
+        
     }
 }

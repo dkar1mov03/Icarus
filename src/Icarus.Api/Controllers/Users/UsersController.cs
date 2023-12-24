@@ -41,5 +41,9 @@ namespace Icarus.Api.Controllers.Users
         [HttpGet("email")]
         public async Task<IActionResult> GetByEmailAsync(string email)
             => Ok(await this._userService.RetrieveByEmailAsync(email));
+
+        [HttpGet("phoneNumber")]
+        public async Task<IActionResult> GetByPhoneNumber(string phoneNumber)
+            => Ok(await _userService.RetrieveByPhoneNumber(phoneNumber));
     }
 }
