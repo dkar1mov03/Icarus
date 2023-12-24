@@ -9,6 +9,7 @@ using Icarus.Service.Helpers;
 using Icarus.Service.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Icarus.Service.Commons.Helpers;
 
 
 
@@ -46,6 +47,11 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
+builder.Services.AddSwaggerService();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddJwtService(builder.Configuration);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -58,6 +64,9 @@ builder.Services.AddControllers(options =>
 
 var app = builder.Build();
 WebHostEnvironmentHelper.WebRootPath = Path.GetFullPath("wwwroot");
+
+if (app.Services.GetService<IHttpContextAccessor>() != null)
+    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

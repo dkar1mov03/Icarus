@@ -10,6 +10,7 @@ public class User : Auditable<long>
     public string Phone { get; set; }
     public string Password { get; set; }
     public string Image { get; set; }
+    public bool IsConfirmed { get; set; } = false;
     public Role Role { get; set; }
 
     public ICollection<Request> Requests { get; set; }
