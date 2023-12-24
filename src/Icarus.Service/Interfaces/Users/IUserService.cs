@@ -10,6 +10,7 @@ namespace Icarus.Service.Interfaces.Users
         Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params);
         Task<UserForResultDto> AddAsync (UserForCreationDto dto);
         Task<UserForResultDto> RetrieveByEmailAsync(string email);
+        Task<UserForResultDto> RetrieveByPhoneNumber(string phoneNumber);
         Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto);
     }
 }

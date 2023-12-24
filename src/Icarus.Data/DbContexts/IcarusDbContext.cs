@@ -20,6 +20,7 @@ public class IcarusDbContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<DepartmentResponse> DepartmentResponses { get; set; }
     public DbSet<DepartmentCategory> DepartmentCategories { get; set; }
+    public DbSet<BotUser> BotUsers { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

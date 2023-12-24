@@ -3,6 +3,7 @@ using System;
 using Icarus.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Icarus.Data.Migrations
 {
     [DbContext(typeof(IcarusDbContext))]
-    partial class IcarusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231224085709_TelegramIdAdded")]
+    partial class TelegramIdAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +76,7 @@ namespace Icarus.Data.Migrations
                             Id = 1L,
                             Address = "Chilanzar 10 Kv",
                             CompanyWebUrl = "http://yoshtadbirkor.uz/innoplatforma",
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9773),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6173),
                             Email = "company1@gmail.com",
                             FacebookUrl = "http://yoshtadbirkor.uz/innoplatforma",
                             InstagramUrl = "http://yoshtadbirkor.uz/innoplatforma",
@@ -87,7 +90,7 @@ namespace Icarus.Data.Migrations
                             Id = 2L,
                             Address = "Chilanzar 11 Kv",
                             CompanyWebUrl = "http://yoshtadbirkor.uz/innoplatforma",
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9777),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6180),
                             Email = "company2@gmail.com",
                             FacebookUrl = "http://yoshtadbirkor.uz/innoplatforma",
                             InstagramUrl = "http://yoshtadbirkor.uz/innoplatforma",
@@ -101,7 +104,7 @@ namespace Icarus.Data.Migrations
                             Id = 3L,
                             Address = "Sergeli 10 Kv",
                             CompanyWebUrl = "http://yoshtadbirkor.uz/innoplatforma",
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9780),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6187),
                             Email = "company3@gmail.com",
                             FacebookUrl = "http://yoshtadbirkor.uz/innoplatforma",
                             InstagramUrl = "http://yoshtadbirkor.uz/innoplatforma",
@@ -115,7 +118,7 @@ namespace Icarus.Data.Migrations
                             Id = 4L,
                             Address = "Sebzor 5 Kv",
                             CompanyWebUrl = "http://yoshtadbirkor.uz/innoplatforma",
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9784),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6193),
                             Email = "company4@gmail.com",
                             FacebookUrl = "http://yoshtadbirkor.uz/innoplatforma",
                             InstagramUrl = "http://yoshtadbirkor.uz/innoplatforma",
@@ -129,7 +132,7 @@ namespace Icarus.Data.Migrations
                             Id = 5L,
                             Address = "Chilanzar 19 Kv",
                             CompanyWebUrl = "http://yoshtadbirkor.uz/innoplatforma",
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9787),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6199),
                             Email = "company5@gmail.com",
                             FacebookUrl = "http://yoshtadbirkor.uz/innoplatforma",
                             InstagramUrl = "http://yoshtadbirkor.uz/innoplatforma",
@@ -138,34 +141,6 @@ namespace Icarus.Data.Migrations
                             Rating = 5m,
                             TelegramUrl = "http://yoshtadbirkor.uz/innoplatforma"
                         });
-                });
-
-            modelBuilder.Entity("Icarus.Domain.Entities.BotUser", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TelegramId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BotUsers");
                 });
 
             modelBuilder.Entity("Icarus.Domain.Entities.Category", b =>
@@ -193,31 +168,31 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9884),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6386),
                             Name = "Moliyalashtirish"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9886),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6389),
                             Name = "Konsultatsiya"
                         },
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9887),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6393),
                             Name = "Iqtisodiyot"
                         },
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9889),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6396),
                             Name = "Tijorat"
                         },
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9891),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6400),
                             Name = "Biznes Ta'lim"
                         });
                 });
@@ -259,7 +234,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 1L,
                             AssetId = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9937),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6483),
                             Latitude = "41.279390",
                             Longitude = "69.197976",
                             Rating = 5m
@@ -268,7 +243,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 2L,
                             AssetId = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9939),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6488),
                             Latitude = "40.7128",
                             Longitude = "-74.0060",
                             Rating = 5m
@@ -277,7 +252,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 3L,
                             AssetId = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9942),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6493),
                             Latitude = "48.8566",
                             Longitude = "2.3522",
                             Rating = 4m
@@ -286,7 +261,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 4L,
                             AssetId = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9944),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6497),
                             Latitude = "35.6895",
                             Longitude = "139.6917",
                             Rating = 4m
@@ -295,7 +270,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 5L,
                             AssetId = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9946),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6502),
                             Latitude = "-33.8688",
                             Longitude = "151.2093",
                             Rating = 3m
@@ -338,7 +313,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 1L,
                             CategoryId = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9985),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6669),
                             DepartmentId = 5L,
                             Description = "Assalomu Alaykum !"
                         },
@@ -346,7 +321,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 2L,
                             CategoryId = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9986),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6673),
                             DepartmentId = 1L,
                             Description = "Assalomu Alaykum !"
                         },
@@ -354,7 +329,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 3L,
                             CategoryId = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9988),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6677),
                             DepartmentId = 4L,
                             Description = "Assalomu Alaykum !"
                         },
@@ -362,7 +337,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 4L,
                             CategoryId = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9990),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6681),
                             DepartmentId = 3L,
                             Description = "Assalomu Alaykum !"
                         },
@@ -370,7 +345,7 @@ namespace Icarus.Data.Migrations
                         {
                             Id = 5L,
                             CategoryId = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9992),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6685),
                             DepartmentId = 2L,
                             Description = "Assalomu Alaykum !"
                         });
@@ -411,7 +386,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 462, DateTimeKind.Utc).AddTicks(38),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6772),
                             DepartmentId = 1L,
                             RequestId = 1L,
                             ResponseBody = "Moliya"
@@ -419,7 +394,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 462, DateTimeKind.Utc).AddTicks(40),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6776),
                             DepartmentId = 3L,
                             RequestId = 2L,
                             ResponseBody = "Iqtisodiyot"
@@ -427,7 +402,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 462, DateTimeKind.Utc).AddTicks(42),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6780),
                             DepartmentId = 2L,
                             RequestId = 3L,
                             ResponseBody = "Biznes Ta'lim"
@@ -435,7 +410,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 462, DateTimeKind.Utc).AddTicks(44),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6784),
                             DepartmentId = 5L,
                             RequestId = 4L,
                             ResponseBody = "Konsultatsiya"
@@ -443,7 +418,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 462, DateTimeKind.Utc).AddTicks(46),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6788),
                             DepartmentId = 4L,
                             RequestId = 5L,
                             ResponseBody = "Ijtimoiy Himoya"
@@ -491,7 +466,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9831),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6287),
                             DepartmentId = 1L,
                             RequestBody = "Moliya",
                             RequestTitle = "I have best idea for these project ALATOR",
@@ -501,7 +476,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9833),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6292),
                             DepartmentId = 3L,
                             RequestBody = "Iqtisodiyot",
                             RequestTitle = "I have best idea for these project ALATOR",
@@ -511,7 +486,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9835),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6296),
                             DepartmentId = 2L,
                             RequestBody = "Biznes Ta'lim",
                             RequestTitle = "i hope to study at Haad Lc",
@@ -521,7 +496,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9837),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6300),
                             DepartmentId = 5L,
                             RequestBody = "Konsultatsiya",
                             RequestTitle = "I have best idea for these project ALATOR",
@@ -531,7 +506,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9840),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(6305),
                             DepartmentId = 4L,
                             RequestBody = "Ijtimoiy Himoya",
                             RequestTitle = "I have need a lot money",
@@ -597,6 +572,9 @@ namespace Icarus.Data.Migrations
                     b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<long?>("TelegramId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -610,7 +588,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9494),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(5728),
                             Email = "john.doe@example.com",
                             FirstName = "John",
                             Image = "07f5477c-7b1f-432d-975c-dfdb48bda466_Screenshot 2023-03-03 181803.png",
@@ -622,7 +600,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9500),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(5739),
                             Email = "jane.smith@example.com",
                             FirstName = "Jane",
                             Image = "07f5477c-7b1f-432d-975c-dfdb48bda466_Screenshot 2023-03-03 181803.png",
@@ -634,7 +612,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 3L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9503),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(5744),
                             Email = "michael.johnson@example.com",
                             FirstName = "Michael",
                             Image = "07f5477c-7b1f-432d-975c-dfdb48bda466_Screenshot 2023-03-03 181803.png",
@@ -646,7 +624,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9505),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(5750),
                             Email = "emily.anderson@example.com",
                             FirstName = "Emily",
                             Image = "07f5477c-7b1f-432d-975c-dfdb48bda466_Screenshot 2023-03-03 181803.png",
@@ -658,7 +636,7 @@ namespace Icarus.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            CreatedAt = new DateTime(2023, 12, 24, 9, 10, 21, 461, DateTimeKind.Utc).AddTicks(9508),
+                            CreatedAt = new DateTime(2023, 12, 24, 8, 57, 8, 152, DateTimeKind.Utc).AddTicks(5755),
                             Email = "william.taylor@example.com",
                             FirstName = "William",
                             Image = "07f5477c-7b1f-432d-975c-dfdb48bda466_Screenshot 2023-03-03 181803.png",

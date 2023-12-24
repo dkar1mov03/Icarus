@@ -59,6 +59,10 @@ public static class ServiceExtension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserRepository, UserRepository>();
 
+        //BotUser
+        services.AddScoped<IBotUserRepository,BotUserRepository>();
+        services.AddScoped<IBotUserService,BotUserService>();
+
         // Category
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository,CategoryRepository>();

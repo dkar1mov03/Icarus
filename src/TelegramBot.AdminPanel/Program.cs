@@ -1,36 +1,49 @@
-namespace TelegramBot.AdminPanel
+
+using Icarus.Data.DbContexts;
+using Icarus.Service.Mappers;
+using Microsoft.EntityFrameworkCore;
+using Telegram.Bot;
+using Telegram.Bot.Polling;
+using TelegramBot.AdminPanel.Extentions;
+using TelegramBot.AdminPanel.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+var token = builder.Configuration.GetValue("BotToken", string.Empty);
+builder.Services.AddSingleton(p => new TelegramBotClient(token));
+builder.Services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
+builder.Services.AddHostedService<BotBackgroundService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddControllersWithViews();
+builder.Services.CustomExtention();
+
+builder.Services.AddDbContext<IcarusDbContext>(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+var app = builder.Build();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.Run();
-        }
-    }
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+  
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
